@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}Homepage - Wanderlust AI{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1>Meet Aria, Your AI Travel Specialist</h1>
+        <p>Experience the future of travel planning with our intelligent companion. Get personalized itineraries that perfectly match your budget, interests, and travel style.</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('planner') }}" class="button large primary">🚀 Start Planning with Aria</a>
+            <a href="{{ url_for('packing') }}" class="button large secondary">🧳 Smart Packing Planner</a>
+        </div>
+    </div>
+    <div class="hero-image">
+        <img src="https://storage.googleapis.com/agent-ux-ketchup-assets-prod/d8736852-3023-4f4a-a75e-ba623a31c62d/app-assets/hero-travel.svg" alt="Travel Illustration">
+    </div>
+</section>
+
+<section class="features">
+    <h2>Why Choose Wanderlust AI?</h2>
+    <p class="subtitle">Experience the future of travel planning with Aria, your intelligent travel companion.</p>
+    <div class="feature-cards">
+        <div class="card">
+            <h3>🧙‍♂️ Smart Wizard Experience</h3>
+            <p>Guided step-by-step process to capture all your preferences and create the perfect trip plan.</p>
+        </div>
+        <div class="card">
+            <h3>🎯 Personalized Itineraries</h3>
+            <p>Choose from 8+ travel themes and get day-by-day plans tailored to your interests and budget.</p>
+        </div>
+        <div class="card">
+            <h3>🧳 Smart Packing Assistant</h3>
+            <p>Weather-adaptive, culturally-aware packing recommendations based on your destination and activities.</p>
+        </div>
+        <div class="card">
+            <h3>💬 Interactive Chat with Aria</h3>
+            <p>Real-time conversation with your AI specialist to refine and perfect your travel plans.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI Travel Planner{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo-section">
+                <div class="logo-icon">🧳</div>
+                <div class="logo-text">
+                    <div class="brand-name">Wanderlust AI</div>
+                    <div class="brand-tagline">Your Intelligent Travel Companion</div>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('planner') }}" class="nav-item">
+                    <span class="nav-icon">🗺️</span>
+                    <span>Planner</span>
+                </a>
+                <a href="{{ url_for('packing') }}" class="nav-item">
+                    <span class="nav-icon">🧳</span>
+                    <span>Smart Packing</span>
+                </a>
+                <a href="{{ url_for('login') }}" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span>Login</span>
+                </a>
+                <a href="{{ url_for('signup') }}" class="button primary">
+                    <span>✨ Sign Up</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AI Travel Planner. All rights reserved.</p>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

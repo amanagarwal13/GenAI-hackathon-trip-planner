@@ -1,0 +1,12 @@
+.gcloudignore
+# Python pycache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Git files
+.git
+.gitignore
+
+# Instance Context
+.gcloudignore

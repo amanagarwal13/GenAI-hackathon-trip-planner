@@ -1,0 +1,200 @@
+{% extends "layout.html" %}
+
+{% block title %}Smart Packing Planner - AI Travel Planner{% endblock %}
+
+{% block content %}
+<!-- Onboarding Wizard -->
+<div id="onboarding-wizard" class="wizard-container">
+    <div class="wizard-progress">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="step-indicators">
+            <div class="step-indicator active" data-step="1">1</div>
+            <div class="step-indicator" data-step="2">2</div>
+            <div class="step-indicator" data-step="3">3</div>
+        </div>
+    </div>
+
+    <!-- Step 1: Basic Trip Info -->
+    <div class="wizard-step active" id="step-1">
+        <div class="step-content">
+            <h2>🧳 Smart Packing Planner</h2>
+            <p>To get started, could you please tell me a bit more about your trip? I'll need to know:</p>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="destination">🌎 Destination: Where are you traveling to?</label>
+                    <input type="text" id="destination" placeholder="e.g., Paris, Tokyo, New York, Bali" required>
+                </div>
+                <div class="form-group">
+                    <label for="start-date">📅 Start Date: When will you be there?</label>
+                    <input type="date" id="start-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="end-date">📅 End Date</label>
+                    <input type="date" id="end-date" required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2: Planned Activities -->
+    <div class="wizard-step" id="step-2">
+        <div class="step-content">
+            <h2>🚶‍♀️ Planned Activities</h2>
+            <p>What do you have in mind for your trip? Select all activities you're planning:</p>
+            
+            <div class="activities-grid">
+                <button class="activity-card" data-activity="Hiking">
+                    <div class="activity-icon">🥾</div>
+                    <div class="activity-name">Hiking</div>
+                    <div class="activity-desc">Mountain trails, nature walks</div>
+                </button>
+                <button class="activity-card" data-activity="City Tours">
+                    <div class="activity-icon">🏙️</div>
+                    <div class="activity-name">City Tours</div>
+                    <div class="activity-desc">Urban exploration, sightseeing</div>
+                </button>
+                <button class="activity-card" data-activity="Beach Days">
+                    <div class="activity-icon">🏖️</div>
+                    <div class="activity-name">Beach Days</div>
+                    <div class="activity-desc">Swimming, sunbathing, water sports</div>
+                </button>
+                <button class="activity-card" data-activity="Business Meetings">
+                    <div class="activity-icon">🏢</div>
+                    <div class="activity-name">Business Meetings</div>
+                    <div class="activity-desc">Professional events, conferences</div>
+                </button>
+                <button class="activity-card" data-activity="Fine Dining">
+                    <div class="activity-icon">🍽️</div>
+                    <div class="activity-name">Fine Dining</div>
+                    <div class="activity-desc">Upscale restaurants, food tours</div>
+                </button>
+                <button class="activity-card" data-activity="Adventure Sports">
+                    <div class="activity-icon">🪂</div>
+                    <div class="activity-name">Adventure Sports</div>
+                    <div class="activity-desc">Skydiving, bungee, extreme sports</div>
+                </button>
+                <button class="activity-card" data-activity="Cultural Sites">
+                    <div class="activity-icon">🏛️</div>
+                    <div class="activity-name">Cultural Sites</div>
+                    <div class="activity-desc">Museums, temples, historical sites</div>
+                </button>
+                <button class="activity-card" data-activity="Nightlife">
+                    <div class="activity-icon">🌃</div>
+                    <div class="activity-name">Nightlife</div>
+                    <div class="activity-desc">Bars, clubs, evening entertainment</div>
+                </button>
+                <button class="activity-card" data-activity="Shopping">
+                    <div class="activity-icon">🛍️</div>
+                    <div class="activity-name">Shopping</div>
+                    <div class="activity-desc">Markets, malls, boutiques</div>
+                </button>
+                <button class="activity-card" data-activity="Photography">
+                    <div class="activity-icon">📸</div>
+                    <div class="activity-name">Photography</div>
+                    <div class="activity-desc">Photo tours, scenic spots</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 3: Personal Preferences -->
+    <div class="wizard-step" id="step-3">
+        <div class="step-content">
+            <h2>👤 Personal Preferences</h2>
+            <p>Help us personalize your packing recommendations</p>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="travelers">👥 Number of Travelers</label>
+                    <select id="travelers" required>
+                        <option value="">Select...</option>
+                        <option value="1">Solo (1 person)</option>
+                        <option value="2">Couple (2 people)</option>
+                        <option value="3-4">Small Group (3-4 people)</option>
+                        <option value="5+">Large Group (5+ people)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="luggage-type">🧳 Luggage Preference</label>
+                    <select id="luggage-type">
+                        <option value="">No specific preference</option>
+                        <option value="carry-on-only">Carry-on only</option>
+                        <option value="checked-bag">Checked bag allowed</option>
+                        <option value="backpack">Backpack travel</option>
+                        <option value="multiple-bags">Multiple bags</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="packing-style">📦 Packing Style</label>
+                    <select id="packing-style">
+                        <option value="">Select style...</option>
+                        <option value="minimalist">Minimalist (Pack light, essentials only)</option>
+                        <option value="prepared">Well-prepared (Pack for all scenarios)</option>
+                        <option value="fashionable">Fashion-focused (Style and variety)</option>
+                        <option value="practical">Practical (Comfort and functionality)</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label for="special-items">📝 Special Items or Requirements (Optional)</label>
+                    <textarea id="special-items" placeholder="Any special equipment, medical items, work gear, or specific clothing requirements..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="wizard-navigation">
+        <button id="prev-btn" class="nav-btn secondary" style="display: none;">← Previous</button>
+        <button id="next-btn" class="nav-btn primary">Next →</button>
+        <button id="get-packing-list-btn" class="nav-btn primary large" style="display: none;">
+            🧳 Get My Smart Packing List!
+        </button>
+    </div>
+</div>
+
+<!-- Main Chat Interface (Hidden initially) -->
+<div id="chat-container" class="chat-layout" style="display: none;">
+    <div class="main-content">
+        <!-- Chat Panel (Left - Main) -->
+        <div class="main-chat-panel">
+            <div class="chat-header">
+                <h2>🧳 Chat with Your Smart Packing Assistant</h2>
+                <p>Your AI Packing Specialist is ready to help create the perfect packing list!</p>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <!-- Messages will be added here -->
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Ask about packing recommendations, weather considerations, or cultural dress codes...">
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+        
+        <!-- Preferences Panel (Right) -->
+        <div class="preferences-panel">
+            <div class="preferences-header">
+                <h3>📋 Your Trip Details</h3>
+                <button id="edit-preferences-btn" class="edit-btn">✏️ Edit</button>
+            </div>
+            
+            <div class="preferences-content" id="preferences-content">
+                <!-- Preferences will be displayed here -->
+            </div>
+            
+            <div class="plan-trip-section">
+                <button id="get-packing-list-btn-panel" class="plan-btn">
+                    🧳 Get Smart Packing List
+                </button>
+                <p class="plan-help-text">Click to get your personalized, weather-adaptive packing recommendations</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='packing.js') }}"></script>
+{% endblock %}

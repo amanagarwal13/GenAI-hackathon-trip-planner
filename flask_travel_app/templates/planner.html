@@ -1,0 +1,237 @@
+{% extends "layout.html" %}
+
+{% block title %}Trip Planner - AI Travel Planner{% endblock %}
+
+{% block content %}
+<!-- Onboarding Wizard -->
+<div id="onboarding-wizard" class="wizard-container">
+    <div class="wizard-progress">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="step-indicators">
+            <div class="step-indicator active" data-step="1">1</div>
+            <div class="step-indicator" data-step="2">2</div>
+            <div class="step-indicator" data-step="3">3</div>
+            <div class="step-indicator" data-step="4">4</div>
+        </div>
+    </div>
+
+    <!-- Step 1: Basic Trip Info -->
+    <div class="wizard-step active" id="step-1">
+        <div class="step-content">
+            <h2>✈️ Let's Plan Your Perfect Trip!</h2>
+            <p>Tell us about your travel plans</p>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="origin">📍 From (Origin)</label>
+                    <input type="text" id="origin" placeholder="e.g., Mumbai, Delhi, Bangalore" required>
+                </div>
+                <div class="form-group">
+                    <label for="destination">🏖️ To (Destination)</label>
+                    <input type="text" id="destination" placeholder="e.g., Goa, Kerala, Rajasthan" required>
+                </div>
+                <div class="form-group">
+                    <label for="start-date">📅 Start Date</label>
+                    <input type="date" id="start-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="end-date">📅 End Date</label>
+                    <input type="date" id="end-date" required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2: Budget & Preferences -->
+    <div class="wizard-step" id="step-2">
+        <div class="step-content">
+            <h2>💰 Budget & Travel Style</h2>
+            <p>Help us understand your preferences</p>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="budget">💰 Total Budget (₹)</label>
+                    <input type="number" id="budget" placeholder="e.g., 50000" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="travelers">👥 Number of Travelers</label>
+                    <select id="travelers" required>
+                        <option value="">Select...</option>
+                        <option value="1">Solo (1 person)</option>
+                        <option value="2">Couple (2 people)</option>
+                        <option value="3-4">Small Group (3-4 people)</option>
+                        <option value="5+">Large Group (5+ people)</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label>🏨 Accommodation Preference</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="accommodation" value="budget">
+                            <span>🏠 Budget (Hostels, Budget Hotels)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="accommodation" value="mid-range">
+                            <span>🏨 Mid-range (3-4 Star Hotels)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="accommodation" value="luxury">
+                            <span>🏰 Luxury (5 Star Hotels, Resorts)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 3: Travel Themes & Interests -->
+    <div class="wizard-step" id="step-3">
+        <div class="step-content">
+            <h2>🎯 What Interests You?</h2>
+            <p>Select all themes that appeal to you</p>
+            
+            <div class="themes-grid">
+                <button class="theme-card" data-theme="Adventure">
+                    <div class="theme-icon">🏔️</div>
+                    <div class="theme-name">Adventure</div>
+                    <div class="theme-desc">Trekking, Sports, Outdoor Activities</div>
+                </button>
+                <button class="theme-card" data-theme="Heritage">
+                    <div class="theme-icon">🏛️</div>
+                    <div class="theme-name">Heritage</div>
+                    <div class="theme-desc">Historical Sites, Museums, Culture</div>
+                </button>
+                <button class="theme-card" data-theme="Beach">
+                    <div class="theme-icon">🏖️</div>
+                    <div class="theme-name">Beach</div>
+                    <div class="theme-desc">Coastal Areas, Water Sports, Relaxation</div>
+                </button>
+                <button class="theme-card" data-theme="Culinary">
+                    <div class="theme-icon">🍛</div>
+                    <div class="theme-name">Culinary</div>
+                    <div class="theme-desc">Local Food, Restaurants, Food Tours</div>
+                </button>
+                <button class="theme-card" data-theme="Wildlife">
+                    <div class="theme-icon">🦁</div>
+                    <div class="theme-name">Wildlife</div>
+                    <div class="theme-desc">National Parks, Safaris, Nature</div>
+                </button>
+                <button class="theme-card" data-theme="Spiritual">
+                    <div class="theme-icon">🕉️</div>
+                    <div class="theme-name">Spiritual</div>
+                    <div class="theme-desc">Temples, Meditation, Pilgrimage</div>
+                </button>
+                <button class="theme-card" data-theme="Nightlife">
+                    <div class="theme-icon">🌃</div>
+                    <div class="theme-name">Nightlife</div>
+                    <div class="theme-desc">Bars, Clubs, Entertainment</div>
+                </button>
+                <button class="theme-card" data-theme="Shopping">
+                    <div class="theme-icon">🛍️</div>
+                    <div class="theme-name">Shopping</div>
+                    <div class="theme-desc">Markets, Malls, Local Crafts</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 4: Personal Preferences -->
+    <div class="wizard-step" id="step-4">
+        <div class="step-content">
+            <h2>👤 Personal Preferences</h2>
+            <p>Help us personalize your experience</p>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="food-preference">🍽️ Food Preference</label>
+                    <select id="food-preference">
+                        <option value="">No specific preference</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="non-vegetarian">Non-Vegetarian</option>
+                        <option value="jain">Jain</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pace">⏱️ Travel Pace</label>
+                    <select id="pace">
+                        <option value="">Select pace...</option>
+                        <option value="relaxed">Relaxed (Fewer activities, more leisure)</option>
+                        <option value="moderate">Moderate (Balanced itinerary)</option>
+                        <option value="packed">Packed (Maximum activities)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="flight-preference">✈️ Flight Time Preference</label>
+                    <select id="flight-preference">
+                        <option value="">No specific preference</option>
+                        <option value="early-morning">Early Morning (6 AM - 9 AM)</option>
+                        <option value="morning">Morning (9 AM - 12 PM)</option>
+                        <option value="afternoon">Afternoon (12 PM - 6 PM)</option>
+                        <option value="evening">Evening (6 PM - 9 PM)</option>
+                        <option value="late-evening">Late Evening (9 PM - 12 AM)</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label for="special-requirements">📝 Special Requirements (Optional)</label>
+                    <textarea id="special-requirements" placeholder="Any allergies, accessibility needs, or special requests..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="wizard-navigation">
+        <button id="prev-btn" class="nav-btn secondary" style="display: none;">← Previous</button>
+        <button id="next-btn" class="nav-btn primary">Next →</button>
+        <button id="plan-trip-btn" class="nav-btn primary large" style="display: none;">
+            🚀 Plan My Trip!
+        </button>
+    </div>
+</div>
+
+<!-- Main Chat Interface (Hidden initially) -->
+<div id="chat-container" class="chat-layout" style="display: none;">
+    <div class="main-content">
+        <!-- Chat Panel (Left - Main) -->
+        <div class="main-chat-panel">
+            <div class="chat-header">
+                <h2>💬 Chat with Aria</h2>
+                <p>Your AI Travel Specialist is ready to help plan your perfect trip!</p>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <!-- Messages will be added here -->
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Ask Aria anything about your trip or just say hello...">
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+        
+        <!-- Preferences Panel (Right) -->
+        <div class="preferences-panel">
+            <div class="preferences-header">
+                <h3>📋 Your Trip Preferences</h3>
+                <button id="edit-preferences-btn" class="edit-btn">✏️ Edit</button>
+            </div>
+            
+            <div class="preferences-content" id="preferences-content">
+                <!-- Preferences will be displayed here -->
+            </div>
+            
+            <div class="plan-trip-section">
+                <button id="plan-trip-btn" class="plan-btn">
+                    🚀 Plan My Trip
+                </button>
+                <p class="plan-help-text">Click to send all your preferences to Aria for trip planning</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='planner.js') }}"></script>
+{% endblock %}

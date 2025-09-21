@@ -1,0 +1,27 @@
+{
+  "user_profile": {
+    "packing_style": "balanced",
+    "weight_conscious": true,
+    "cultural_sensitivity": true,
+    "weather_adaptive": true,
+    "preferred_categories": ["clothing", "electronics", "documents", "toiletries"],
+    "special_requirements": [],
+    "luggage_type": "suitcase",
+    "weight_limit_kg": 23
+  },
+  "packing_preferences": {
+    "preferred_brands": [],
+    "packing_style": "balanced",
+    "luggage_type": "suitcase",
+    "weight_limit_kg": 23,
+    "special_requirements": []
+  },
+  "itinerary": {
+    "trip_name": "Sample Trip",
+    "start_date": "2025-10-01",
+    "end_date": "2025-10-07",
+    "origin": "Home",
+    "destination": "Mumbai, India",
+    "days": []
+  }
+}
