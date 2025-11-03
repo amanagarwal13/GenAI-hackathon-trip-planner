@@ -2,4 +2,6 @@ Flask
 python-dotenv
 google-cloud-aiplatform
 google-adk
+google-cloud-firestore
 gunicorn
+requests

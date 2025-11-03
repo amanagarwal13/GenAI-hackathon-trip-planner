@@ -20,6 +20,8 @@ from google.genai.types import GenerateContentConfig
 from travel_concierge.shared_libraries import types
 from travel_concierge.sub_agents.planning import prompt
 from travel_concierge.tools.memory import memorize
+from travel_concierge.tools.search import google_search_grounding
+from travel_concierge.tools.firestore_persistence import save_itinerary_to_firestore
 from .tools import intelligent_budget_optimizer
 
 
@@ -30,6 +32,7 @@ itinerary_agent = Agent(
     instruction=prompt.ITINERARY_AGENT_INSTR,
     disallow_transfer_to_parent=True,
     disallow_transfer_to_peers=True,
+    tools=[save_itinerary_to_firestore],
     output_schema=types.Itinerary,
     output_key="itinerary",
     generate_content_config=types.json_response_config,
@@ -51,10 +54,11 @@ hotel_room_selection_agent = Agent(
 hotel_search_agent = Agent(
     model="gemini-2.5-pro",
     name="hotel_search_agent",
-    description="Help users find hotel around a specific geographic area",
+    description="Help users find hotel around a specific geographic area using Google Search Grounding",
     instruction=prompt.HOTEL_SEARCH_INSTR,
     disallow_transfer_to_parent=True,
     disallow_transfer_to_peers=True,
+    tools=[google_search_grounding],
     output_schema=types.HotelsSelection,
     output_key="hotel",
     generate_content_config=types.json_response_config,
@@ -76,10 +80,11 @@ flight_seat_selection_agent = Agent(
 flight_search_agent = Agent(
     model="gemini-2.5-pro",
     name="flight_search_agent",
-    description="Help users find best flight deals",
+    description="Help users find best flight deals using Google Search Grounding",
     instruction=prompt.FLIGHT_SEARCH_INSTR,
     disallow_transfer_to_parent=True,
     disallow_transfer_to_peers=True,
+    tools=[google_search_grounding],
     output_schema=types.FlightsSelection,
     output_key="flight",
     generate_content_config=types.json_response_config,

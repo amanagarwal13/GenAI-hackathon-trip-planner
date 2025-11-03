@@ -27,6 +27,7 @@ requests = "^2.32.3"
 deprecated = "^1.2.14"
 Flask = "^3.0.0"
 Flask-Cors = "^4.0.0"
+google-cloud-firestore = "^2.19.0"
 
 [tool.poetry.group.dev]
 optional = true

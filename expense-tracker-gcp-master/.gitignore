@@ -1,0 +1,7 @@
+env
+.env
+__pycache__/
+.chainlit
+.files
+.mypy_cache
+service-acc.json

@@ -253,6 +253,10 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('🔄 Creating session...');
             const response = await fetch('/api/sessions', {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ agent_type: 'travel' })
             });
             
             if (!response.ok) {
@@ -337,7 +341,7 @@ Please format the response clearly with day-wise breakdown and include practical
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ content: message }),
+                body: JSON.stringify({ content: message, agent_type: 'travel' }),
             });
 
             if (!response.ok) {

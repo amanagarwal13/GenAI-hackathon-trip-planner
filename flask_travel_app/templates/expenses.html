@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{% block title %}Expense Tracker - Wanderlust AI{% endblock %}
+
+{% block content %}
+<!-- Main Expense Tracker Interface -->
+<div id="expense-tracker-container" class="expense-tracker-layout">
+    <!-- Tab Navigation -->
+    <div class="expense-tabs">
+        <button class="expense-tab active" data-tab="chat">
+            <span class="tab-icon">💬</span>
+            <span class="tab-text">Add Expenses</span>
+        </button>
+        <button class="expense-tab" data-tab="dashboard">
+            <span class="tab-icon">📊</span>
+            <span class="tab-text">Dashboard</span>
+        </button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content-wrapper">
+        <!-- Chat Tab Content -->
+        <div id="chat-tab-content" class="tab-content active">
+            <div class="chat-panel-full">
+                <div class="chat-header-modern">
+                    <div class="header-content">
+                        <h2>💰 Expense Tracker</h2>
+                        <p>Your AI Expense Assistant is ready to help!</p>
+                    </div>
+                </div>
+                <div class="chat-messages-modern" id="chat-messages">
+                    <!-- Messages will be added here -->
+                </div>
+                <div class="chat-input-area-modern">
+                    <div class="receipt-upload-section-modern">
+                        <label for="receipt-upload" class="upload-label-modern">
+                            <span class="upload-icon">📷</span>
+                            <span class="upload-text">Upload Receipt</span>
+                        </label>
+                        <input type="file" id="receipt-upload" accept="image/*" style="display: none;">
+                        <div class="receipt-preview-modern" id="receipt-preview" style="display: none;">
+                            <img id="receipt-image" src="" alt="Receipt preview">
+                            <button type="button" class="remove-receipt-modern" id="remove-receipt">×</button>
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" id="chat-input" placeholder="Add expense manually or upload a receipt...">
+                        <button id="send-button">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Tab Content -->
+        <div id="dashboard-tab-content" class="tab-content">
+            <div class="dashboard-panel-full">
+                <div class="dashboard-header-modern">
+                    <div class="header-content">
+                        <h2>📊 Expense Dashboard</h2>
+                        <button id="refresh-summary-btn" class="refresh-btn-modern">
+                            <span>🔄</span>
+                            <span>Refresh</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="dashboard-content-modern">
+                    <div class="date-filter-section-modern">
+                        <h4>Filter by Date Range</h4>
+                        <div class="date-filter-controls">
+                            <input type="date" id="start-date" class="date-input-modern">
+                            <span class="date-separator">to</span>
+                            <input type="date" id="end-date" class="date-input-modern">
+                            <button id="apply-date-filter" class="filter-btn-modern primary">Apply</button>
+                            <button id="clear-date-filter" class="filter-btn-modern secondary">Clear</button>
+                        </div>
+                    </div>
+                    
+                    <div class="expense-summary-content-modern" id="expense-summary-content">
+                        <div class="summary-placeholder">
+                            <div class="placeholder-icon">📈</div>
+                            <p>Loading dashboard...</p>
+                            <p class="placeholder-hint">Your expense summary will appear here</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions-section-modern">
+                        <h4>Quick Actions</h4>
+                        <div class="quick-actions-grid">
+                            <button class="quick-action-btn-modern" data-action="view-all">View All Expenses</button>
+                            <button class="quick-action-btn-modern" data-action="view-month">This Month</button>
+                            <button class="quick-action-btn-modern" data-action="view-categories">By Category</button>
+                            <button class="quick-action-btn-modern" data-action="view-summary">Get Summary</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='expenses.js') }}"></script>
+{% endblock %}

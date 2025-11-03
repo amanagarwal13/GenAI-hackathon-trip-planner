@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Travel App - Complete Architecture Diagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: #2a2a2a;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #b0b0b0;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        .diagram-container {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 40px;
+            margin: 20px 0;
+            position: relative;
+            overflow: auto;
+        }
+        
+        svg {
+            width: 100%;
+            height: auto;
+            min-height: 900px;
+        }
+        
+        .box {
+            fill: #3a3a3a;
+            stroke: #5a5a5a;
+            stroke-width: 2;
+            rx: 8;
+        }
+        
+        .box-large {
+            fill: #2a2a2a;
+            stroke: #4a4a4a;
+            stroke-width: 3;
+            rx: 10;
+        }
+        
+        .text {
+            fill: #e0e0e0;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .text-large {
+            fill: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .text-title {
+            fill: #ffffff;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .arrow {
+            stroke: #6a9eff;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+        
+        .arrow-red {
+            stroke: #ff6a6a;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead-red);
+        }
+        
+        .arrow-label {
+            fill: #6a9eff;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        .arrow-label-red {
+            fill: #ff6a6a;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        .agent-box {
+            fill: #4a6fa5;
+            stroke: #6a9eff;
+            stroke-width: 2;
+            rx: 8;
+        }
+        
+        .subagent-box {
+            fill: #3a4a6a;
+            stroke: #5a7a9a;
+            stroke-width: 1.5;
+            rx: 6;
+        }
+        
+        .service-box {
+            fill: #3a5a3a;
+            stroke: #5aff5a;
+            stroke-width: 2;
+            rx: 8;
+        }
+        
+        .external-box {
+            fill: #5a3a3a;
+            stroke: #ff6a6a;
+            stroke-width: 2;
+            rx: 8;
+        }
+        
+        .legend {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-box {
+            width: 30px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid;
+        }
+        
+        .legend-box.main { background: #2a2a2a; border-color: #4a4a4a; }
+        .legend-box.agent { background: #4a6fa5; border-color: #6a9eff; }
+        .legend-box.service { background: #3a5a3a; border-color: #5aff5a; }
+        .legend-box.external { background: #5a3a3a; border-color: #ff6a6a; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Flask Travel App - Complete Architecture</h1>
+        <p class="subtitle">Multi-Agent System Architecture with 4 Specialized Agents</p>
+        
+        <div class="diagram-container">
+            <svg viewBox="0 0 1400 1000" xmlns="http://www.w3.org/2000/svg">
+                <!-- Define arrowhead markers -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#6a9eff" />
+                    </marker>
+                    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ff6a6a" />
+                    </marker>
+                </defs>
+                
+                <!-- Google Cloud Run Container -->
+                <rect x="50" y="30" width="1300" height="120" class="box-large" />
+                <text x="700" y="70" text-anchor="middle" class="text-title">Google Cloud Run</text>
+                
+                <!-- Flask Travel App -->
+                <rect x="100" y="80" width="400" height="60" class="box" />
+                <text x="300" y="115" text-anchor="middle" class="text-large">Flask Travel App</text>
+                
+                <!-- User Device -->
+                <rect x="1100" y="80" width="200" height="60" class="box" />
+                <text x="1200" y="115" text-anchor="middle" class="text-large">User Device</text>
+                
+                <!-- Web Browser -->
+                <rect x="1120" y="160" width="160" height="40" class="box" />
+                <text x="1200" y="185" text-anchor="middle" class="text">Web Browser</text>
+                
+                <!-- Arrow: Web Browser to Flask App -->
+                <path d="M 1200 200 L 1200 220 L 500 220 L 500 140" class="arrow" />
+                <text x="850" y="215" class="arrow-label">HTTPS Request</text>
+                
+                <!-- Arrow: Flask App to Web Browser (Streaming) -->
+                <path d="M 500 140 L 500 280 L 1200 280 L 1200 200" class="arrow" />
+                <text x="850" y="275" class="arrow-label">Creates Session & Streams Responses</text>
+                
+                <!-- Arrow: Flask App to Expense Tracker (External API) -->
+                <path d="M 500 140 L 500 290 L 1200 290 L 1200 370" class="arrow-red" />
+                <text x="850" y="290" class="arrow-label-red">HTTP API Calls</text>
+                
+                <!-- Vertex AI Agent Engine Container -->
+                <rect x="50" y="320" width="1300" height="520" class="box-large" />
+                <text x="700" y="350" text-anchor="middle" class="text-title">Vertex AI Agent Engine</text>
+                
+                <!-- API Calls from Flask to Agents -->
+                <path d="M 300 140 L 300 370" class="arrow" />
+                <text x="310" y="255" class="arrow-label">API Calls</text>
+                
+                <path d="M 300 140 L 500 370" class="arrow" />
+                <text x="400" y="255" class="arrow-label">API Calls</text>
+                
+                <path d="M 300 140 L 700 370" class="arrow" />
+                <text x="500" y="255" class="arrow-label">API Calls</text>
+                
+                <path d="M 300 140 L 900 370" class="arrow" />
+                <text x="600" y="255" class="arrow-label">API Calls</text>
+                
+                <!-- Personalized Travel Agent -->
+                <rect x="100" y="380" width="280" height="100" class="agent-box" />
+                <text x="240" y="410" text-anchor="middle" class="text-large">Personalized Travel Agent</text>
+                <text x="240" y="435" text-anchor="middle" class="text" style="font-size: 11px;">(Root Agent with 8 Sub-Agents)</text>
+                <text x="240" y="452" text-anchor="middle" class="text" style="font-size: 10px;">Inspiration • Planning • Booking</text>
+                <text x="240" y="468" text-anchor="middle" class="text" style="font-size: 10px;">Pre-Trip • In-Trip • Post-Trip</text>
+                
+                <!-- Travel Agent Sub-agents -->
+                <rect x="110" y="500" width="60" height="25" class="subagent-box" />
+                <text x="140" y="517" text-anchor="middle" class="text" style="font-size: 9px;">Inspiration</text>
+                
+                <rect x="180" y="500" width="60" height="25" class="subagent-box" />
+                <text x="210" y="517" text-anchor="middle" class="text" style="font-size: 9px;">Planning</text>
+                
+                <rect x="250" y="500" width="60" height="25" class="subagent-box" />
+                <text x="280" y="517" text-anchor="middle" class="text" style="font-size: 9px;">Booking</text>
+                
+                <rect x="320" y="500" width="60" height="25" class="subagent-box" />
+                <text x="350" y="517" text-anchor="middle" class="text" style="font-size: 9px;">Packing</text>
+                
+                <!-- Smart Weather Packing Agent -->
+                <rect x="420" y="380" width="280" height="100" class="agent-box" />
+                <text x="560" y="410" text-anchor="middle" class="text-large">Smart Weather Packing Agent</text>
+                <text x="560" y="435" text-anchor="middle" class="text" style="font-size: 11px;">(4 Sub-Agents)</text>
+                <text x="560" y="452" text-anchor="middle" class="text" style="font-size: 10px;">Weather Analyzer • Cultural Advisor</text>
+                <text x="560" y="468" text-anchor="middle" class="text" style="font-size: 10px;">Packing Optimizer • Outfit Planner</text>
+                
+                <!-- Packing Agent Sub-agents -->
+                <rect x="440" y="500" width="70" height="25" class="subagent-box" />
+                <text x="475" y="517" text-anchor="middle" class="text" style="font-size: 9px;">Weather</text>
+                
+                <rect x="520" y="500" width="70" height="25" class="subagent-box" />
+                <text x="555" y="517" text-anchor="middle" class="text" style="font-size: 9px;">Cultural</text>
+                
+                <rect x="600" y="500" width="70" height="25" class="subagent-box" />
+                <text x="635" y="517" text-anchor="middle" class="text" style="font-size: 9px;">Optimizer</text>
+                
+                <rect x="680" y="500" width="70" height="25" class="subagent-box" />
+                <text x="715" y="517" text-anchor="middle" class="text" style="font-size: 9px;">Outfit</text>
+                
+                <!-- Budget Optimizer Agent -->
+                <rect x="740" y="380" width="280" height="100" class="agent-box" />
+                <text x="880" y="410" text-anchor="middle" class="text-large">Budget Optimizer Agent</text>
+                <text x="880" y="435" text-anchor="middle" class="text" style="font-size: 11px;">Proactive Cost Optimization</text>
+                <text x="880" y="452" text-anchor="middle" class="text" style="font-size: 10px;">Analyzes Itineraries Before Booking</text>
+                <text x="880" y="468" text-anchor="middle" class="text" style="font-size: 10px;">Suggests Cost-Saving Alternatives</text>
+                
+                <!-- Expense Tracker Agent (External) -->
+                <rect x="1060" y="380" width="280" height="100" class="external-box" />
+                <text x="1200" y="410" text-anchor="middle" class="text-large">Expense Tracker Agent</text>
+                <text x="1200" y="435" text-anchor="middle" class="text" style="font-size: 11px;">(External FastAPI Service)</text>
+                <text x="1200" y="452" text-anchor="middle" class="text" style="font-size: 10px;">Vision AI • Receipt Processing</text>
+                <text x="1200" y="468" text-anchor="middle" class="text" style="font-size: 10px;">Automatic Categorization</text>
+                
+                <!-- Service Layers Container -->
+                <rect x="50" y="860" width="1300" height="70" class="box-large" />
+                <text x="700" y="890" text-anchor="middle" class="text-title">Google Cloud Services & External Services</text>
+                
+                <!-- Section Labels -->
+                <text x="250" y="845" text-anchor="middle" style="fill: #5aff5a; font-size: 14px; font-weight: 700; font-family: 'Segoe UI', sans-serif;">Google Cloud Services</text>
+                <text x="1175" y="845" text-anchor="middle" style="fill: #ff6a6a; font-size: 14px; font-weight: 700; font-family: 'Segoe UI', sans-serif;">External Services</text>
+                
+                <!-- Divider Line -->
+                <line x1="1020" y1="860" x2="1020" y2="930" stroke="#4a4a4a" stroke-width="2" />
+                
+                <!-- Arrows from Sub-Agents to Services -->
+                <!-- Inspiration sub-agent to Google Places -->
+                <path d="M 140 525 L 140 750 L 250 750 L 250 850" class="arrow" />
+                <text x="195" y="740" class="arrow-label" style="font-size: 10px;">Uses Tools</text>
+                
+                <!-- Planning sub-agent to Google Places -->
+                <path d="M 210 525 L 210 750 L 250 750 L 250 850" class="arrow" />
+                
+                <!-- Booking sub-agent to Google Search -->
+                <path d="M 280 525 L 280 750 L 600 750 L 600 850" class="arrow" />
+                <text x="440" y="740" class="arrow-label" style="font-size: 10px;">Uses Tools</text>
+                
+                <!-- Packing sub-agent to Google Search -->
+                <path d="M 350 525 L 350 750 L 600 750 L 600 850" class="arrow" />
+                
+                <!-- Weather sub-agent to Google Search -->
+                <path d="M 475 525 L 475 750 L 600 750 L 600 850" class="arrow" />
+                <text x="537" y="740" class="arrow-label" style="font-size: 10px;">Uses Tools</text>
+                
+                <!-- Cultural sub-agent to Google Search -->
+                <path d="M 555 525 L 555 750 L 600 750 L 600 850" class="arrow" />
+                
+                <!-- Optimizer sub-agent to Weather API -->
+                <path d="M 635 525 L 635 750 L 1000 750 L 1000 850" class="arrow" />
+                <text x="817" y="740" class="arrow-label" style="font-size: 10px;">Uses Tools</text>
+                
+                <!-- Outfit sub-agent to Weather API -->
+                <path d="M 715 525 L 715 750 L 1000 750 L 1000 850" class="arrow" />
+                
+                <!-- Budget Agent to Firestore -->
+                <path d="M 880 480 L 880 750 L 800 750 L 800 850" class="arrow" />
+                <text x="840" y="740" class="arrow-label" style="font-size: 10px;">Uses Tools</text>
+                
+                <!-- Expense Agent to Firestore -->
+                <path d="M 1200 480 L 1200 750 L 900 750 L 900 850" class="arrow-red" />
+                <text x="1050" y="740" class="arrow-label-red" style="font-size: 10px;">API Calls</text>
+                
+                <!-- Google Cloud Services -->
+                <rect x="100" y="870" width="300" height="50" class="service-box" />
+                <text x="250" y="900" text-anchor="middle" class="text-large" style="fill: #ffffff;">Google Places API</text>
+                
+                <rect x="450" y="870" width="300" height="50" class="service-box" />
+                <text x="600" y="900" text-anchor="middle" class="text-large" style="fill: #ffffff;">Google Search</text>
+                
+                <rect x="800" y="870" width="200" height="50" class="service-box" />
+                <text x="900" y="900" text-anchor="middle" class="text-large" style="fill: #ffffff;">Firestore</text>
+                
+                <!-- External Services -->
+                <rect x="1050" y="870" width="250" height="50" class="external-box" />
+                <text x="1175" y="900" text-anchor="middle" class="text-large" style="fill: #ffffff;">Weather API</text>
+                
+            </svg>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box main"></div>
+                <span>Main Containers (Cloud Run, Vertex AI)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box agent"></div>
+                <span>AI Agents (Travel, Packing, Budget, Expense)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box service"></div>
+                <span>Google Cloud Services</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box external"></div>
+                <span>External Services</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Travel App - Sequence Diagrams</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+        .diagram-section {
+            margin-bottom: 60px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .diagram-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        .diagram-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .mermaid {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            margin: 20px 0;
+        }
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .navigation a {
+            display: block;
+            padding: 8px 12px;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: background 0.3s;
+        }
+        .navigation a:hover {
+            background: #f0f0f0;
+        }
+        .agent-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .legend {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .legend-color {
+            width: 30px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .legend-color.user { background: #4CAF50; }
+        .legend-color.frontend { background: #2196F3; }
+        .legend-color.backend { background: #FF9800; }
+        .legend-color.agent { background: #9C27B0; }
+        .legend-color.subagent { background: #E91E63; }
+        .legend-color.tool { background: #00BCD4; }
+        .legend-color.database { background: #795548; }
+    </style>
+</head>
+<body>
+    <div class="navigation">
+        <strong>Navigation</strong>
+        <a href="#overview">Overview</a>
+        <a href="#initialization">Initialization</a>
+        <a href="#travel-planning">Travel Planning</a>
+        <a href="#packing-flow">Packing Flow</a>
+        <a href="#booking-flow">Booking Flow</a>
+        <a href="#expense-flow">Expense Flow</a>
+    </div>
+
+    <div class="container">
+        <h1>🌍 Flask Travel App</h1>
+        <p class="subtitle">Complete Sequence Diagrams - Agent Interactions & Flow</p>
+
+        <div class="legend">
+            <h3>Legend</h3>
+            <div class="legend-item">
+                <div class="legend-color user"></div>
+                <span>User/Frontend</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color frontend"></div>
+                <span>Frontend (JavaScript)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color backend"></div>
+                <span>Backend (Flask)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color agent"></div>
+                <span>Main Agent</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color subagent"></div>
+                <span>Sub-Agent</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color tool"></div>
+                <span>Tool/Service</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color database"></div>
+                <span>Database (Firestore)</span>
+            </div>
+        </div>
+
+        <!-- Overview Diagram -->
+        <div id="overview" class="diagram-section">
+            <h2 class="diagram-title">1. System Overview</h2>
+            <p class="diagram-description">
+                High-level view of how the Flask app connects to multiple agents and how agents use sub-agents.
+            </p>
+            <div class="mermaid">
+sequenceDiagram
+    participant User
+    participant Frontend as Frontend<br/>(HTML/JS)
+    participant Flask as Flask Backend
+    participant Singleton as Agent Singleton
+    participant TravelAgent as Travel Agent<br/>(Root)
+    participant PlanningAgent as Planning Agent<br/>(Sub-Agent)
+    participant FlightAgent as Flight Search<br/>(Sub-Sub-Agent)
+    participant PackingAgent as Packing Agent<br/>(Standalone)
+    participant ExpenseAPI as Expense Tracker<br/>(External API)
+    participant Firestore as Firestore<br/>Database
+
+    User->>Frontend: Opens web app
+    Frontend->>Flask: HTTP Request
+    Flask->>Singleton: Get agent instance
+    Singleton->>TravelAgent: Connect to agent
+    Singleton->>PackingAgent: Connect to agent
+    
+    User->>Frontend: Completes wizard
+    Frontend->>Flask: POST /api/sessions
+    Flask->>Singleton: Create session
+    Singleton->>TravelAgent: Create session
+    TravelAgent-->>Singleton: Session ID
+    
+    User->>Frontend: Sends message
+    Frontend->>Flask: POST /api/sessions/{id}/stream
+    Flask->>TravelAgent: stream_query()
+    TravelAgent->>PlanningAgent: Transfer to sub-agent
+    PlanningAgent->>FlightAgent: Use flight_search tool
+    FlightAgent->>Firestore: Query/Store data
+    FlightAgent-->>PlanningAgent: Flight results
+    PlanningAgent-->>TravelAgent: Complete plan
+    TravelAgent-->>Flask: Stream events
+    Flask-->>Frontend: SSE stream
+    Frontend-->>User: Display response
+    
+    User->>Frontend: Upload receipt
+    Frontend->>Flask: POST /api/expense/upload-receipt
+    Flask->>ExpenseAPI: Process receipt
+    ExpenseAPI->>Firestore: Store expense
+            </div>
+        </div>
+
+        <!-- Initialization Flow -->
+        <div id="initialization" class="diagram-section">
+            <h2 class="diagram-title">2. Application Initialization</h2>
+            <p class="diagram-description">
+                Detailed flow of how the Flask app initializes and connects to all agents on startup.
+            </p>
+            <div class="mermaid">
+sequenceDiagram
+    participant Server as Server Startup
+    participant Flask as Flask App
+    participant Singleton as AgentSingleton
+    participant Env as Environment<br/>Variables
+    participant VertexAI as Vertex AI
+    participant TravelAgent as Travel Agent<br/>Engine
+    participant PackingAgent as Packing Agent<br/>Engine
+    participant BudgetAgent as Budget Agent<br/>Engine
+    participant SessionService as Session Service
+    participant Firestore as Firestore Client
+
+    Server->>Flask: Start application
+    Flask->>Singleton: __new__() called
+    Singleton->>Env: Load .env file
+    Env-->>Singleton: Configuration values
+    
+    Singleton->>VertexAI: vertexai.init(project, location)
+    VertexAI-->>Singleton: Initialized
+    
+    Singleton->>TravelAgent: agent_engines.get(resource_id)
+    TravelAgent-->>Singleton: Connected
+    
+    Singleton->>PackingAgent: agent_engines.get(resource_id)
+    PackingAgent-->>Singleton: Connected
+    
+    Singleton->>BudgetAgent: agent_engines.get(resource_id)
+    BudgetAgent-->>Singleton: Connected (optional)
+    
+    Singleton->>SessionService: VertexAiSessionService(project, location)
+    SessionService-->>Singleton: Initialized
+    
+    Singleton->>Firestore: firestore.Client(project)
+    Firestore-->>Singleton: Connected
+    
+    Singleton-->>Flask: Singleton instance ready
+    Flask-->>Server: Application ready
+            </div>
+        </div>
+
+        <!-- Travel Planning Flow -->
+        <div id="travel-planning" class="diagram-section">
+            <h2 class="diagram-title">3. Travel Planning Flow</h2>
+            <p class="diagram-description">
+                Complete flow showing how a user request flows through the root agent to planning agent and its sub-agents.
+            </p>
+            <div class="mermaid">
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Flask
+    participant TravelAgent as Travel Agent<br/>(Root)
+    participant PlanningAgent as Planning Agent
+    participant FlightSearch as Flight Search<br/>Agent
+    participant HotelSearch as Hotel Search<br/>Agent
+    participant ItineraryAgent as Itinerary Agent
+    participant SearchTool as Google Search<br/>Grounding
+    participant MemoryTool as Memory Tool
+    participant Firestore
+    participant BudgetTool as Budget<br/>Optimizer
+
+    User->>Frontend: "Plan trip to Mumbai"
+    Frontend->>Flask: POST /api/sessions/{id}/stream
+    Flask->>TravelAgent: stream_query(message)
+    
+    TravelAgent->>TravelAgent: Analyze request
+    TravelAgent->>PlanningAgent: Transfer to planning_agent
+    
+    PlanningAgent->>PlanningAgent: Collect trip preferences
+    PlanningAgent->>FlightSearch: AgentTool(flight_search)
+    
+    FlightSearch->>SearchTool: google_search_grounding("flights...")
+    SearchTool-->>FlightSearch: Flight data
+    FlightSearch-->>PlanningAgent: Flight options (JSON)
+    
+    PlanningAgent->>User: Present flight options
+    User->>Frontend: Select flight
+    Frontend->>Flask: Send selection
+    Flask->>PlanningAgent: User selection
+    
+    PlanningAgent->>MemoryTool: memorize("outbound_flight", data)
+    MemoryTool-->>PlanningAgent: Stored
+    
+    PlanningAgent->>HotelSearch: AgentTool(hotel_search)
+    HotelSearch->>SearchTool: google_search_grounding("hotels...")
+    SearchTool-->>HotelSearch: Hotel data
+    HotelSearch-->>PlanningAgent: Hotel options (JSON)
+    
+    PlanningAgent->>User: Present hotel options
+    User->>Frontend: Select hotel
+    Frontend->>Flask: Send selection
+    Flask->>PlanningAgent: User selection
+    
+    PlanningAgent->>MemoryTool: memorize("hotel_selection", data)
+    MemoryTool-->>PlanningAgent: Stored
+    
+    PlanningAgent->>ItineraryAgent: AgentTool(itinerary_agent)
+    ItineraryAgent->>ItineraryAgent: Create structured itinerary
+    ItineraryAgent->>Firestore: save_itinerary_to_firestore()
+    Firestore-->>ItineraryAgent: Saved
+    ItineraryAgent-->>PlanningAgent: Itinerary JSON
+    
+    PlanningAgent->>BudgetTool: intelligent_budget_optimizer()
+    BudgetTool-->>PlanningAgent: Optimization suggestions
+    PlanningAgent->>User: Present optimizations
+    
+    PlanningAgent-->>TravelAgent: Complete plan
+    TravelAgent-->>Flask: Stream events
+    Flask-->>Frontend: SSE stream
+    Frontend-->>User: Display itinerary
+            </div>
+        </div>
+
+        <!-- Packing Flow -->
+        <div id="packing-flow" class="diagram-section">
+            <h2 class="diagram-title">4. Packing Assistant Flow</h2>
+            <p class="diagram-description">
+                Flow showing how the packing agent uses its sub-agents (weather analyzer, cultural advisor, etc.) to provide packing recommendations.
+            </p>
+            <div class="mermaid">
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Flask
+    participant PackingAgent as Packing Agent<br/>(Root)
+    participant WeatherAgent as Weather Analyzer<br/>Agent
+    participant CulturalAgent as Cultural Advisor<br/>Agent
+    participant OptimizerAgent as Packing Optimizer<br/>Agent
+    participant OutfitAgent as Outfit Planner<br/>Agent
+    participant WeatherTool as Weather Tool
+    participant MemoryTool as Memory Tool
+    participant ItineraryTool as Get Itinerary<br/>Details
+
+    User->>Frontend: "Help me pack for Mumbai"
+    Frontend->>Flask: POST /api/sessions (agent_type: packing)
+    Flask->>PackingAgent: Create session
+    
+    User->>Frontend: Send packing request
+    Frontend->>Flask: POST /api/sessions/{id}/stream
+    Flask->>PackingAgent: stream_query(message)
+    
+    PackingAgent->>PackingAgent: Analyze request
+    PackingAgent->>ItineraryTool: get_itinerary_details()
+    ItineraryTool-->>PackingAgent: Destination, dates, activities
+    
+    PackingAgent->>WeatherAgent: Transfer to weather_analyzer_agent
+    WeatherAgent->>WeatherTool: weather_search_grounding()
+    WeatherTool-->>WeatherAgent: Weather forecast
+    WeatherAgent->>MemoryTool: memorize(weather_data)
+    WeatherAgent-->>PackingAgent: Weather analysis
+    
+    PackingAgent->>CulturalAgent: Transfer to cultural_advisor_agent
+    CulturalAgent->>MemoryTool: Query cultural preferences
+    MemoryTool-->>CulturalAgent: Cultural data
+    CulturalAgent-->>PackingAgent: Cultural advice
+    
+    PackingAgent->>OptimizerAgent: Transfer to packing_optimizer_agent
+    OptimizerAgent->>OptimizerAgent: analyze_packing_efficiency()
+    OptimizerAgent->>OptimizerAgent: suggest_optimizations()
+    OptimizerAgent-->>PackingAgent: Optimization suggestions
+    
+    PackingAgent->>OutfitAgent: Transfer to outfit_planner_agent
+    OutfitAgent->>MemoryTool: Query preferences
+    OutfitAgent-->>PackingAgent: Daily outfit plans
+    
+    PackingAgent->>PackingAgent: Compile recommendations
+    PackingAgent-->>Flask: Stream packing list
+    Flask-->>Frontend: SSE stream
+    Frontend-->>User: Display packing recommendations
+            </div>
+        </div>
+
+        <!-- Booking Flow -->
+        <div id="booking-flow" class="diagram-section">
+            <h2 class="diagram-title">5. Booking & Payment Flow</h2>
+            <p class="diagram-description">
+                Complete booking flow from planning agent transfer to booking agent, through reservation creation and payment processing.
+            </p>
+            <div class="mermaid">
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Flask
+    participant TravelAgent as Travel Agent<br/>(Root)
+    participant PlanningAgent as Planning Agent
+    participant BookingAgent as Booking Agent
+    participant ReserveTool as Create Reservation<br/>Tool
+    participant PaymentTool as Payment Choice<br/>Tool
+    participant ProcessTool as Process Payment<br/>Tool
+    participant Firestore
+
+    User->>Frontend: "I'm ready to book"
+    Frontend->>Flask: Send message
+    Flask->>TravelAgent: stream_query()
+    TravelAgent->>PlanningAgent: Check if ready
+    
+    PlanningAgent->>PlanningAgent: Verify selections complete
+    PlanningAgent-->>TravelAgent: Ready for booking
+    TravelAgent->>BookingAgent: Transfer to booking_agent
+    
+    BookingAgent->>BookingAgent: Identify items requiring booking
+    BookingAgent->>User: Present booking summary
+    
+    User->>Frontend: Confirm booking
+    Frontend->>Flask: Send confirmation
+    Flask->>BookingAgent: User confirmation
+    
+    loop For each item (flight, hotel, etc.)
+        BookingAgent->>ReserveTool: create_reservation(item)
+        ReserveTool->>Firestore: Store reservation
+        ReserveTool-->>BookingAgent: reservation_id
+        
+        BookingAgent->>PaymentTool: payment_choice(item)
+        PaymentTool-->>BookingAgent: Payment options
+        
+        BookingAgent->>User: Present payment options
+        User->>Frontend: Select payment method
+        Frontend->>Flask: Payment choice
+        Flask->>BookingAgent: Payment method
+        
+        BookingAgent->>ProcessTool: process_payment(reservation_id, method)
+        ProcessTool->>Firestore: Update reservation status
+        ProcessTool-->>BookingAgent: Payment confirmed
+    end
+    
+    BookingAgent-->>TravelAgent: Booking complete
+    TravelAgent-->>Flask: Stream confirmation
+    Flask-->>Frontend: SSE stream
+    Frontend-->>User: Display booking confirmation
+            </div>
+        </div>
+
+        <!-- Expense Tracking Flow -->
+        <div id="expense-flow" class="diagram-section">
+            <h2 class="diagram-title">6. Expense Tracking Flow</h2>
+            <p class="diagram-description">
+                Flow showing how expense tracking integrates with the Flask app and interacts with the external expense tracker API.
+            </p>
+            <div class="mermaid">
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Flask
+    participant ExpenseAPI as Expense Tracker<br/>API (FastAPI)
+    participant ExpenseAgent as Expense Agent
+    participant Firestore
+    participant Dashboard as Dashboard<br/>Query
+
+    User->>Frontend: Upload receipt image
+    Frontend->>Flask: POST /api/expense/upload-receipt
+    Flask->>Flask: Encode image to base64
+    
+    Flask->>ExpenseAPI: POST /run (with image)
+    ExpenseAPI->>ExpenseAgent: Process receipt image
+    ExpenseAgent->>ExpenseAgent: Extract expense data
+    ExpenseAgent->>Firestore: add_expense(name, amount, date, category)
+    Firestore-->>ExpenseAgent: Expense saved
+    ExpenseAgent-->>ExpenseAPI: Expense details
+    ExpenseAPI-->>Flask: Response with expense data
+    Flask-->>Frontend: Expense added confirmation
+    
+    User->>Frontend: View dashboard
+    Frontend->>Flask: GET /api/expense/dashboard
+    Flask->>Dashboard: get_dashboard_data()
+    Dashboard->>Firestore: Query expenses collection
+    Firestore-->>Dashboard: Expense documents
+    
+    Dashboard->>Dashboard: Aggregate data:<br/>- Total amount<br/>- By category<br/>- Date range<br/>- Average expense
+    Dashboard-->>Flask: Dashboard data
+    Flask-->>Frontend: JSON response
+    Frontend-->>User: Display dashboard
+    
+    User->>Frontend: Chat with expense agent
+    Frontend->>Flask: POST /api/expense/run_sse
+    Flask->>ExpenseAPI: POST /run_sse (streaming)
+    ExpenseAPI->>ExpenseAgent: Process query
+    ExpenseAgent->>Firestore: Query/Update expenses
+    ExpenseAgent-->>ExpenseAPI: Stream events
+    ExpenseAPI-->>Flask: SSE stream
+    Flask-->>Frontend: SSE stream
+    Frontend-->>User: Display response
+            </div>
+        </div>
+
+        <!-- Multi-Agent Collaboration -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">7. Multi-Agent Collaboration Example</h2>
+            <p class="diagram-description">
+                Example showing how multiple agents work together: Travel agent creates itinerary, then packing agent uses that itinerary.
+            </p>
+            <div class="mermaid">
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Flask
+    participant TravelAgent as Travel Agent
+    participant PlanningAgent as Planning Agent
+    participant ItineraryAgent as Itinerary Agent
+    participant Firestore
+    participant PackingAgent as Packing Agent
+    participant WeatherAgent as Weather Analyzer
+
+    User->>Frontend: Complete trip planning
+    Frontend->>Flask: Plan trip request
+    Flask->>TravelAgent: stream_query()
+    TravelAgent->>PlanningAgent: Transfer
+    PlanningAgent->>ItineraryAgent: Create itinerary
+    ItineraryAgent->>Firestore: save_itinerary_to_firestore()
+    Firestore-->>ItineraryAgent: Saved
+    ItineraryAgent-->>PlanningAgent: Itinerary created
+    PlanningAgent-->>TravelAgent: Plan complete
+    TravelAgent-->>User: Itinerary displayed
+    
+    User->>Frontend: "Now help me pack"
+    Frontend->>Flask: Switch to packing agent
+    Flask->>PackingAgent: stream_query()
+    PackingAgent->>Firestore: get_itinerary_details()
+    Firestore-->>PackingAgent: Itinerary data
+    PackingAgent->>WeatherAgent: Analyze weather
+    WeatherAgent-->>PackingAgent: Weather forecast
+    PackingAgent->>PackingAgent: Generate packing list<br/>based on itinerary
+    PackingAgent-->>User: Packing recommendations
+            </div>
+        </div>
+
+        <!-- Agent Tool Call Flow -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">8. Agent Tool Call Flow</h2>
+            <p class="diagram-description">
+                Detailed flow showing how agents call tools and how tools interact with external services and databases.
+            </p>
+            <div class="mermaid">
+sequenceDiagram
+    participant Agent as Agent
+    participant AgentTool as AgentTool<br/>Wrapper
+    participant SubAgent as Sub-Agent
+    participant DirectTool as Direct Tool<br/>(memorize, search)
+    participant ExternalAPI as External API<br/>(Google Places, Search)
+    participant Firestore
+
+    Note over Agent,Firestore: Tool Call Flow Options
+    
+    alt Agent calls sub-agent via AgentTool
+        Agent->>AgentTool: AgentTool(agent=sub_agent)
+        AgentTool->>SubAgent: Execute sub-agent
+        SubAgent->>DirectTool: Call tool
+        DirectTool-->>SubAgent: Tool result
+        SubAgent-->>AgentTool: Sub-agent response
+        AgentTool-->>Agent: Final result
+    end
+    
+    alt Agent calls tool directly
+        Agent->>DirectTool: memorize(key, value)
+        DirectTool->>Agent: Store in state
+        DirectTool-->>Agent: Confirmation
+    end
+    
+    alt Agent calls external service
+        Agent->>DirectTool: google_search_grounding(query)
+        DirectTool->>ExternalAPI: HTTP Request
+        ExternalAPI-->>DirectTool: Search results
+        DirectTool-->>Agent: Formatted results
+    end
+    
+    alt Agent persists data
+        Agent->>DirectTool: save_itinerary_to_firestore()
+        DirectTool->>Firestore: Write document
+        Firestore-->>DirectTool: Document ID
+        DirectTool-->>Agent: Success confirmation
+    end
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#667eea',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#764ba2',
+                lineColor: '#333',
+                secondaryColor: '#f8f9fa',
+                tertiaryColor: '#e0e0e0'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+    </script>
+</body>
+</html>
+

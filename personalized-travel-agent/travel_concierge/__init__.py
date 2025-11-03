@@ -12,4 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from . import agent
+from .agent import root_agent
+
+__all__ = ["root_agent"]

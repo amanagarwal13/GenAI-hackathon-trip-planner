@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}Budget Optimizer - Wanderlust AI{% endblock %}
+
+{% block content %}
+<!-- Main Budget Optimizer Interface -->
+<div id="budget-optimizer-container" class="expense-tracker-layout">
+    <!-- Chat Tab Content -->
+    <div class="tab-content-wrapper">
+        <div id="chat-tab-content" class="tab-content active">
+            <div class="chat-panel-full">
+                <div class="chat-header-modern">
+                    <div class="header-content">
+                        <h2>💰 Budget Optimizer</h2>
+                        <p>Your AI Budget Assistant is ready to help optimize your travel expenses!</p>
+                    </div>
+                </div>
+                <div class="chat-messages-modern" id="chat-messages">
+                    <!-- Messages will be added here -->
+                </div>
+                <div class="chat-input-area-modern">
+                    <div class="input-wrapper">
+                        <input type="text" id="chat-input" placeholder="Ask about budget optimization, deals, or spending analysis...">
+                        <button id="send-button">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='budget.js') }}"></script>
+{% endblock %}
+

@@ -182,13 +182,23 @@ Please use the context info below for user preferences
 
 
 FLIGHT_SEARCH_INSTR = """Generate search results for flights from origin to destination inferred from user query please use future dates within 3 months from today's date for the prices, limit to 4 results.
-- Ask for any details you don't know, like origin and destination, etc.
-- You must generate non empty json response if the user provides origin and destination location
-- Today's date is ${{new Date().toLocaleDateString()}}.
+- Use the `google_search_grounding` tool to search for current flight deals, prices, and availability
+- Search query should include: origin city, destination city, departure date, return date (if round trip), and "flight deals" or "flight prices"
+- Example search: "cheap flights from {origin} to {destination} on {departure_date} return {return_date} flight deals prices"
+- Extract real flight information from search results including:
+  * Airline names and flight numbers
+  * Departure and arrival airports with IATA codes
+  * Departure and arrival times
+  * Flight prices in USD
+  * Number of stops
+  * Flight duration
 - Pay special attention to user's flight time preferences (early morning, morning, afternoon, evening, late evening)
 - When flight time preferences are provided, prioritize flights that match those preferences
 - Include a variety of airlines and price points to give users good options
 - Consider the user's budget when suggesting flights
+- Ask for any details you don't know, like origin and destination, etc.
+- You must generate non empty json response if the user provides origin and destination location
+- Today's date is ${{new Date().toLocaleDateString()}}.
 - Please use the context info below for any user preferences
 
 Current user:
@@ -226,13 +236,8 @@ Return the response as a JSON object formatted like this:
 }}
 
 Remember that you can only use the tools to complete your tasks: 
-  - `flight_search_agent`,
-  - `flight_seat_selection_agent`,
-  - `hotel_search_agent`,
-  - `hotel_room_selection_agent`,
-  - `itinerary_agent`,
-  - `memorize`
-
+  - `google_search_grounding` (to search for flight information)
+  - Return results in the specified JSON format
 """
 
 FLIGHT_SEAT_SELECTION_INSTR = """
@@ -320,14 +325,23 @@ use this for your context.
 
 
 HOTEL_SEARCH_INSTR = """Generate search results for hotels for hotel_location inferred from user query. Find only 4 results.
-- Ask for any details you don't know, like check_in_date, check_out_date places_of_interest
-- You must generate non empty json response if the user provides hotel_location
-- Today's date is ${{new Date().toLocaleDateString()}}.
+- Use the `google_search_grounding` tool to search for current hotel availability, prices, and reviews
+- Search query should include: destination city, check-in date, check-out date, accommodation type (budget/mid-range/luxury), and "hotels" or "accommodation"
+- Example search: "best {accommodation_type} hotels in {destination} check-in {check_in_date} check-out {check_out_date} prices availability"
+- Extract real hotel information from search results including:
+  * Hotel name and address
+  * Check-in and check-out times
+  * Price per night in USD
+  * Hotel ratings and reviews
+  * Location relative to points of interest
 - Pay attention to user's accommodation preferences (budget, mid-range, luxury)
 - Consider the user's budget when suggesting hotels
 - Match hotels to user's travel themes and interests (e.g., heritage hotels for heritage travelers)
 - Consider location preferences based on planned activities and points of interest
 - Include hotels that match the user's travel pace (central locations for packed itineraries, relaxing resorts for relaxed pace)
+- Ask for any details you don't know, like check_in_date, check_out_date places_of_interest
+- You must generate non empty json response if the user provides hotel_location
+- Today's date is ${{new Date().toLocaleDateString()}}.
 - Please use the context info below for any user preferences
 
 Current user:
@@ -426,6 +440,8 @@ The JSON object captures the following information:
   - Use 'flight' to indicate traveling to airport to fly.
   - Use 'hotel' to indiciate traveling to the hotel to check-in.
 - Always use empty strings "" instead of `null`.
+
+After generating the itinerary JSON and storing it in the state, automatically call the `save_itinerary_to_firestore` tool to persist it to Firestore. The tool will use the user_id from the session state (defaults to "default_user" if not set).
 
 <JSON_EXAMPLE>
 {{

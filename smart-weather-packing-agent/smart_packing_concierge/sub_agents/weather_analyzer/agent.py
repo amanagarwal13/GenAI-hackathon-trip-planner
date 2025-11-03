@@ -15,18 +15,19 @@
 """Weather analyzer sub-agent for the Smart Packing Concierge."""
 
 from google.adk.agents import Agent
+from google.adk.tools.agent_tool import AgentTool
 
 from . import prompt
-from smart_packing_concierge.tools.weather import get_weather_forecast
+from smart_packing_concierge.tools.weather import weather_search_grounding
 from smart_packing_concierge.tools.memory import memorize
 
 weather_analyzer_agent = Agent(
     model="gemini-2.5-pro",
     name="weather_analyzer_agent",
-    description="Analyzes weather conditions and provides weather-adaptive packing recommendations.",
+    description="Analyzes weather conditions and provides weather-adaptive packing recommendations using Google Search Grounding.",
     instruction=prompt.WEATHER_ANALYZER_INSTR,
     tools=[
-        get_weather_forecast,
+        weather_search_grounding,
         memorize,
     ],
 )
